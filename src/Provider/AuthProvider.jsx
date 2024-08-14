@@ -6,6 +6,7 @@ import axios from 'axios'
 import useAxiosPublic from '../utils/useAxiosPublic'
 import { setEmail } from '../utils/setStorage'
 import { getEmailInfo } from '../utils/getStorage'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 
 export const AuthContext = createContext(null)
@@ -15,38 +16,45 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true);
     const axiosPublic = useAxiosPublic();
+    // const navigate = useNavigate();
 
 
 
-    const loginUser = async (email, pin) => {
-        try {
-            const { data } = await axiosPublic.get(`/userLogin?email=${email}&pin=${pin}`);
-            // console.log(data);
-            if (data.message == 'matched') {
-                // console.log(info.email)
-                setEmail(email);
-                alert('matched')
-                setUser(email)
-                // navigate('/')
-            }
-            else {
-                alert(data.message)
-            }
-            // alert('successfully login!');
-            // navigate('/login')
-        } catch (error) {
-            console.log(error);
-            alert("something went wrong!")
-        }
+    // const loginUser = async (email, pin) => {
+    //     try {
+    //         const { data } = await axiosPublic.get(`/userLogin?email=${email}&pin=${pin}`);
+            
+    //         if (data.message == 'matched') {
+                
+    //             setEmail(email);
+    //             setUser(email)
+                
+    //             alert('login successfull')
+                
+                
+    //         }
+    //         else {
+    //             alert(data.message)
+    //         }
+           
+    //     } catch (error) {
+    //         console.log(error);
+    //         alert("something went wrong!")
+    //     }
+    // }
+
+    const logoutUser = () => {
+        setEmail('');
+        localStorage.setItem('access-token', '')
     }
 
-    const signIn = (email, pin) => {
-        setLoading(true)
-        // console.log(email, pin)
-        return loginUser(email, pin);
-    }
+    // const signIn = (email, pin) => {
+    //     setLoading(true)
+       
+    //     return loginUser(email, pin);
+    // }
 
-    console.log("user = ", user)
+    // console.log("user = ", user)
 
 
 
@@ -57,6 +65,12 @@ const AuthProvider = ({ children }) => {
     //     })
     //     return signOut(auth)
     //   }
+
+      const logOut = async () => {
+        setLoading(true)
+        
+        return logoutUser();
+      }
 
 
 
@@ -146,14 +160,15 @@ const AuthProvider = ({ children }) => {
         // }
 
 
-    }, [])
+    }, [user])
 
     const authInfo = {
         user,
         loading,
         setLoading,
 
-        signIn,
+        setUser,
+        logOut
 
     }
 

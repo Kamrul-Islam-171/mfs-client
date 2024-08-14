@@ -9,6 +9,7 @@ import About from './Compontnts/About/About';
 import Login from './Compontnts/Login/Login';
 import Register from './Compontnts/Register/Register';
 import AuthProvider from './Provider/AuthProvider';
+import Dashboard from './Dashboard/Dashboard';
 
 const router = createBrowserRouter([
   {
@@ -18,11 +19,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Home></Home>
-      },
-      {
-        path: '/about',
-        element: <About></About>
+        element: <Login></Login>
       },
       {
         path: '/login',
@@ -31,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: '/reg',
         element: <Register></Register>
+      },
+      {
+        path: '/dashboard',
+        element:<Dashboard></Dashboard>
       }
     ]
   },

@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form"
 import useAxiosPublic from "../../utils/useAxiosPublic";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
 
@@ -20,8 +20,11 @@ const Register = () => {
             balance : parseInt(0)
         }
         try {
-            await axiosPublic.post('/users', info);
-            alert('done!');
+            const {data} = await axiosPublic.post('/users', info);
+            if(data.message == "exist") {
+                return alert('This Email already exist. Choose another email!')
+            }
+            alert('Registration Done!');
             navigate('/login')
         } catch (error) {
             console.log(error);
@@ -120,6 +123,9 @@ const Register = () => {
                     <button type="submit" className="btn btn-primary">Submit</button>
                 </div>
             </form>
+            <div>
+                <p className="text-center mt-5 text-xl">Already have an Account ? <Link to={'/login'} className="text-blue-600 font-medium">Login</Link></p>
+            </div>
         </div>
     );
 };
